@@ -2,6 +2,7 @@ import rateLimit from 'express-rate-limit';
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import cheerio from 'cheerio';
+import { csrfMiddleware } from '../../lib/csrf';
 
 // Initialize rate-limiting middleware
 const limiter = rateLimit({
@@ -12,7 +13,7 @@ const limiter = rateLimit({
         res.status(429).json({ message: 'Too many requests, please try again later.' });
     },
 });
-export default async function handler(req, res) {
+const fetchMetadata =  async function handler(req, res) {
     await new Promise((resolve, reject) => {
         limiter(req, res, (result) => {
             if (result instanceof Error) return reject(result);
@@ -62,3 +63,4 @@ export default async function handler(req, res) {
         res.status(405).json({ message: 'Method not allowed' });
     }
 }
+export default csrfMiddleware(fetchMetadata);

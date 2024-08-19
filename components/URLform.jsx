@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import DOMPurify from 'dompurify';
+import styles from './URLForm.module.css';
 
 const URLForm = ({ onSubmit }) => {
     const [urls, setUrls] = useState(['']);
@@ -24,23 +25,24 @@ const URLForm = ({ onSubmit }) => {
         setUrls(newUrls);
     };
 
-const handleSubmit = (e) => {
-    e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    // Simple URL validation before submitting
-    if (urls.some((url, index) => !url.trim() && index !== urls.length - 1)) {
-        setError('Please fill out all URL fields.');
-        return;
-    }
-    setError(null);
-    onSubmit(urls.filter(url => url.trim()));  // Passing the non-empty URLs to the parent component
-};
+        // Simple URL validation before submitting
+        // if (urls.some((url, index) => !url.trim() && index !== urls.length - 1)) {
+        //     setError('Please fill out all URL fields.');
+        //     return;
+        // }
+        setError(null);
+        onSubmit(urls.filter(url => url.trim()));  // Passing the non-empty URLs to the parent component
+    };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit}>
             {urls.map((url, index) => (
                 <div key={index}>
                     <input
+                        className={styles.input}
                         type="text"
                         value={url}
                         onChange={(e) => handleChange(index, e)}
@@ -48,7 +50,7 @@ const handleSubmit = (e) => {
                     />
                 </div>
             ))}
-            <button type="submit">Fetch Metadata</button>
+            <button className={styles.button} type="submit">Fetch Metadata</button>
             {error && <p style={{ color: 'red' }}>{error}</p>}
         </form>
     );
