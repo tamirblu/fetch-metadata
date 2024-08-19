@@ -1,5 +1,5 @@
 import { render, fireEvent, screen } from '@testing-library/react';
-import URLForm from '../components/URLform';
+import URLForm from '../components/URLform.jsx';
 
 describe('URLForm', () => {
     it('renders input fields and submit button', () => {
