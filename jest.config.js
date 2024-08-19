@@ -12,6 +12,5 @@ const customJestConfig = {
         '^@/(.*)$': '<rootDir>/$1', // Aliases for imports
     },
 };
-
-
+// module.exports = { setupFilesAfterEnv: ['<rootDir>/jest.setup.js'], testEnvironment: 'jest-environment-jsdom', }
 module.exports = createJestConfig(customJestConfig);
