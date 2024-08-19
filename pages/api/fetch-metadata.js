@@ -1,5 +1,4 @@
 import rateLimit from 'express-rate-limit';
-import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import cheerio from 'cheerio';
 import { csrfMiddleware } from '../../lib/csrf';
@@ -20,46 +19,61 @@ const fetchMetadata =  async function handler(req, res) {
             resolve(result);
         });
     });
-    if (req.method === 'POST') {
-        const {urls} = req.body;
+
+    if (req.method === 'GET') {
+        const { url } = req.query;
 
         try {
-            const results  = await Promise.all(
-                urls.map(async (url) => {
-                // Ensure the URL is correctly formatted
-                    const formattedUrl = url.trim();
+            const response = await axios.get(url);
+            const html = response.data;
+            const $ = cheerio.load(html);
 
-                    // Fetch metadata from the URL
-                    const response = await fetch(formattedUrl, {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            image: 'https://t4.ftcdn.net/jpg/00/53/45/31/360_F_53453175_hVgYVz0WmvOXPd9CNzaUcwcibiGao3CL.jpg',
-                            title: 'Example Title',
-                            description: 'Example description for the website.',
-                        }),
-                        headers: {
-                            'Content-type': 'application/json; charset=UTF-8',
-                        },
-                    });
+            const title = $('head title').text();
+            const description = $('meta[name="description"]').attr('content');
+            const image = $('meta[property="og:image"]').attr('content');
 
-                    const data = await response.json();
-                    const title = data.title;
-                    const description = data.description;
-                    const image = data.image;
-                    console.log(data);
-
-                    return {
-                        title: title || '',
-                        description: description || '',
-                        image: image || '',
-                    };
-                })
-            );
-            res.status(200).json(results);
+            res.status(200).json({
+                title: title || '',
+                description: description || '',
+                image: image || '',
+            });
         } catch (error) {
             res.status(500).json({ message: 'Error fetching metadata' });
         }
-    }   else {
+    }
+
+    if (req.method === 'POST') {
+        const { url } = req.body;
+        try {
+            const formattedUrl = url.trim();
+            const response = await fetch(formattedUrl, {
+                                    method: 'POST',
+                                    body: JSON.stringify({
+                                        image: 'https://t4.ftcdn.net/jpg/00/53/45/31/360_F_53453175_hVgYVz0WmvOXPd9CNzaUcwcibiGao3CL.jpg',
+                                        title: 'Example Title',
+                                        description: 'Example description for the website.',
+                                    }),
+                                    headers: {
+                                        'Content-type': 'application/json; charset=UTF-8',
+                                    },
+                                });
+            const data = await response.json();
+            const title = data.title;
+            const description = data.description
+            const image = data.image;
+            console.log(data);
+            res.status(200).json({
+                title: title || '',
+                description: description || '',
+                image: image || '',
+            });
+
+
+        }catch (error) {
+            res.status(500).json({ message: 'Error fetching metadata' });
+        }
+    }
+    else {
         res.status(405).json({ message: 'Method not allowed' });
     }
 }

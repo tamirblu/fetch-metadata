@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import MetadataCard from '../MetadataCard';
+import MetadataCard from '../components/MetadataCard';
 
 describe('MetadataCard', () => {
     const mockData = {

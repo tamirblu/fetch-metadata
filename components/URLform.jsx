@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import DOMPurify from 'dompurify';
-import styles from './URLForm.module.css';
+import styles from '../styles/URLForm.module.css';
 
 const URLForm = ({ onSubmit }) => {
     const [urls, setUrls] = useState(['']);
