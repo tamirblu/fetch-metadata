@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
-import URLForm from '../components/URLForm.jsx';
-import MetadataCard from '../components/MetadataCard';
-import styles from '../styles/Home.module.css';
+import URLForm from './components/URLForm.jsx';
+import MetadataCard from './components/MetadataCard';
+import styles from './styles/Home.module.css';
 
 
 export default function Home() {
