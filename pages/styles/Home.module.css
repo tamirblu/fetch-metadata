@@ -25,7 +25,7 @@
 .metadataContainer {
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* Align metadata cards to the right */
+    align-items: flex-end;
 
 }
 

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import MetadataCard from '../pages/components/MetadataCard';
 import '@testing-library/jest-dom';
 
-// TEST:
+// TEST CASES:
 // - The MetadataCard component should render the title, description, and image.
 describe('MetadataCard', () => {
     test('renders title, description, and image', () => {

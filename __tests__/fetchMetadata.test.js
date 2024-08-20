@@ -1,10 +1,15 @@
 import httpMocks from 'node-mocks-http';
-// import fetchMetadata from '../pages/api/fetchMetadata';  // Adjust import path as needed
 import { fetchMetadata } from '../pages/api/fetchMetadata';
 
 jest.mock('express-rate-limit', () => jest.fn(() => jest.fn((req, res, next) => next())));
 jest.mock('../lib/csrf');
 
+// TEST CASES:
+// - OPTIONS request
+// - GET request
+// - POST request
+// - Error fetching metadata
+// - Unsupported method
 describe('fetchMetadata API handler', () => {
     let req, res;
 
@@ -89,7 +94,8 @@ describe('fetchMetadata API handler', () => {
     });
 
     it('should return 405 for unsupported methods', async () => {
-        req.method = 'PUT'; // Unsupported method
+        // Unsupported method
+        req.method = 'PUT';
 
         await fetchMetadata(req, res);
 

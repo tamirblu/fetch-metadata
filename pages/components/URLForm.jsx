@@ -2,10 +2,23 @@ import { useState } from 'react';
 import DOMPurify from 'dompurify';
 import styles from '../styles/URLForm.module.css';
 
+/**
+ * URLForm component to handle user input of URLs and submit them for metadata fetching.
+ *
+ * @param {Object} props - The component props.
+ * @param {Function} props.onSubmit - The function to call when the form is submitted.
+ * @returns {JSX.Element} The rendered URLForm component.
+ */
 const URLForm = ({ onSubmit }) => {
     const [urls, setUrls] = useState(['']);
     const [error, setError] = useState(null);
 
+    /**
+     * Handles changes to the input fields.
+     *
+     * @param {number} index - The index of the input field being changed.
+     * @param {Object} event - The event object from the input field.
+     */
     const handleChange = (index, event) => {
         const newUrls = [...urls];
         const sanitizedContent = DOMPurify.sanitize(event.target.value);
@@ -25,14 +38,13 @@ const URLForm = ({ onSubmit }) => {
         setUrls(newUrls);
     };
 
+    /**
+     * Handles form submission.
+     *
+     * @param {Object} e - The event object from the form submission.
+     */
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // Simple URL validation before submitting
-        // if (urls.some((url, index) => !url.trim() && index !== urls.length - 1)) {
-        //     setError('Please fill out all URL fields.');
-        //     return;
-        // }
         setError(null);
         onSubmit(urls.filter(url => url.trim()));  // Passing the non-empty URLs to the parent component
     };

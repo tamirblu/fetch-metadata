@@ -5,7 +5,7 @@ import axiosMock from 'axios-mock-adapter';
 import Home from '../pages/index'; // Adjust the path according to your file structure
 import { useRouter } from 'next/router';
 
-// TEST:
+// TEST CASES:
 // - The Home component should render the initial UI correctly.
 // - The Home component should handle successful metadata fetch.
 // - The Home component should handle error responses as excepted.
@@ -45,7 +45,7 @@ describe('Home Component', () => {
         render(<Home />);
 
         // Simulate entering a URL and submitting the form
-        const input = screen.getByPlaceholderText(/Enter URL 1/i); // Match the actual placeholder text
+        const input = screen.getByPlaceholderText(/Enter URL 1/i);
         fireEvent.change(input, { target: { value: url } });
         fireEvent.submit(input);
 
@@ -64,7 +64,7 @@ describe('Home Component', () => {
 
         render(<Home />);
 
-        const input = screen.getByPlaceholderText(/Enter URL 1/i); // Match the actual placeholder text
+        const input = screen.getByPlaceholderText(/Enter URL 1/i);
         fireEvent.change(input, { target: { value: url } });
         fireEvent.submit(input);
 

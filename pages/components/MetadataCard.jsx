@@ -1,6 +1,9 @@
 import styles from '../styles/MetadataCard.module.css';
 import homeStyles from '../styles/Home.module.css';
 
+/**
+ * MetadataCard component to display metadata information.
+ */
 export default function MetadataCard({ title, description, image }) {
     return (
         <div className={homeStyles.metadataContainer}>
