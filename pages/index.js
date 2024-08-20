@@ -24,9 +24,9 @@ export default function Home() {
                     try {
                         let response;
                         if (url.trim() === test) {
-                            response = await axios.post('/api/fetch-metadata', { url });
+                            response = await axios.post('https://fetch-metadata-3b4h.vercel.app/api/fetch-metadata', { url });
                         } else {
-                            response = await axios.get('/api/fetch-metadata', { params: { url } });
+                            response = await axios.get('https://fetch-metadata-3b4h.vercel.app/api/fetch-metadata', { params: { url } });
                         }
                         setMetadata((prevMetadata) => [...prevMetadata, response.data]);
                     } catch (err) {

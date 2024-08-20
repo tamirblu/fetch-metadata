@@ -46,7 +46,7 @@ const fetchMetadata =  async function handler(req, res) {
         }
     }
 
-    if (req.method === 'POST') {
+    else if (req.method === 'POST') {
         const { url } = req.body;
         try {
             const formattedUrl = url.trim();
