@@ -20,16 +20,16 @@ export default function Home() {
         setMetadata([]);
         setBadUrls([]);
         const currentPath = router.asPath; // Pathname of the URL (e.g., /about)
-        console.log(currentPath);
+        // console.log(currentPath);
         try {
             await Promise.all(
                 urls.map(async (url) => {
                     try {
                         let response;
                         if (url.trim() === test) {
-                            response = await axios.post(`${currentPath}api/fetch-metadata`, { url });
+                            response = await axios.post(`${currentPath}api/fetchMetadata`, { url });
                         } else {
-                            response = await axios.get(`${currentPath}api/fetch-metadata`, { params: { url } });
+                            response = await axios.get(`${currentPath}api/fetchMetadata`, { params: { url } });
                         }
                         setMetadata((prevMetadata) => [...prevMetadata, response.data]);
                     } catch (err) {
@@ -73,7 +73,6 @@ export default function Home() {
 
                 <div className = {styles.childFetch}>
                     {metadata.map((data, index) => (
-                        console.log(data),
                         <MetadataCard
                             key={index}
                             title={data.title}

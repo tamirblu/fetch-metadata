@@ -1,6 +1,4 @@
 import rateLimit from 'express-rate-limit';
-import axios from 'axios';
-import cheerio from 'cheerio';
 import { csrfMiddleware } from '../../lib/csrf';
 
 // Initialize rate-limiting middleware
@@ -33,13 +31,18 @@ const fetchMetadata =  async function handler(req, res) {
         const { url } = req.query;
 
         try {
-            const response = await axios.get(url);
-            const html = response.data;
-            const $ = cheerio.load(html);
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'text/html; charset=UTF-8',
+                },
+            });
+            const data = await response.json();
+            const title = data.title;
+            const description = data.description
+            const image = data.image;
 
-            const title = $('head title').text();
-            const description = $('meta[name="description"]').attr('content');
-            const image = $('meta[property="og:image"]').attr('content');
+            console.log(data);
 
             res.status(200).json({
                 title: title || '',
@@ -87,3 +90,4 @@ const fetchMetadata =  async function handler(req, res) {
     }
 }
 export default csrfMiddleware(fetchMetadata);
+export { fetchMetadata }; // Export the handler separately for testing
