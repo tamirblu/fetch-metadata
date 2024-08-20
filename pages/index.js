@@ -3,6 +3,7 @@ import axios from 'axios';
 import URLForm from './components/URLForm.jsx';
 import MetadataCard from './components/MetadataCard';
 import styles from './styles/Home.module.css';
+import { useRouter } from 'next/router';
 
 
 export default function Home() {
@@ -11,22 +12,24 @@ export default function Home() {
     const [error, setError] = useState(null);
     const [badUrls, setBadUrls] = useState([]);
     const test = 'https://jsonplaceholder.typicode.com/posts';
+    const router = useRouter();
 
     const handleFetchMetadata = async (urls) => {
         setLoading(true);
         setError(null);
         setMetadata([]);
         setBadUrls([]);
-
+        const currentPath = router.asPath; // Pathname of the URL (e.g., /about)
+        console.log(currentPath);
         try {
             await Promise.all(
                 urls.map(async (url) => {
                     try {
                         let response;
                         if (url.trim() === test) {
-                            response = await axios.post('https://fetch-metadata-3b4h.vercel.app/api/fetch-metadata', { url });
+                            response = await axios.post(`${currentPath}api/fetch-metadata`, { url });
                         } else {
-                            response = await axios.get('https://fetch-metadata-3b4h.vercel.app/api/fetch-metadata', { params: { url } });
+                            response = await axios.get(`${currentPath}api/fetch-metadata`, { params: { url } });
                         }
                         setMetadata((prevMetadata) => [...prevMetadata, response.data]);
                     } catch (err) {
