@@ -17,6 +17,11 @@ const fetchMetadata =  async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+    if (req.method === 'OPTIONS') {
+        // Respond to preflight requests with a 200 status
+        return res.status(200).end();
+    }
+
     await new Promise((resolve, reject) => {
         limiter(req, res, (result) => {
             if (result instanceof Error) return reject(result);
